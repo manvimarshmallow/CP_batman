@@ -43,43 +43,28 @@ void setIO(string s)
     freopen((s + ".in").c_str(), "r", stdin);
     freopen((s + ".out").c_str(), "w", stdout);
 }
+int walk(vector<int> first_barn, vector<int> second_barn, int day, int tank1, int tank2)
+{
+    for (int i : first barn)
+    {
+        tank1 -= i;
+        tank2 += i;
+        if (tank1 > 0 || tank2 > 0)
+        {
+            
+        }
+    }
+}
 int main()
 {
-    // setIO("planting");
-    int n;
-    cin >> n;
-    map<int, vector<int>> network;
-    for (int i = 0; i < n - 1; i++)
+    vector<int> first_barn(10);
+    vector<int> second_barn(10);
+    for (int i = 0; i < 10; i++)
     {
-        int a, b;
-        cin >> a >> b;
-
-        vector<int> va, vb;
-        va.push_back(a);
-        va.push_back(b);
-      
-
-        if (network.find(a) != network.end())
-        {
-            network[a].push_back(b);
-        }
-        else
-        {
-            network.insert({a, vb});
-        }
-        if (network.find(b) != network.end())
-        {
-            network[b].push_back(a);
-        }
-        else
-        {
-            network.insert({b, va});
-        }
+        cin >> first_barn[i];
     }
-    int colours = 0;
-    for (const auto& x : network)
+    for (int i = 0; i < 10; i++)
     {
-        colours = max(colours, (int)x.second.size());
+        cin >> second_barn[i];
     }
-    cout << colours;
 }

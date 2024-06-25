@@ -38,6 +38,24 @@ typedef vector<long long> vll;
 typedef pair<int, int> pii;
 typedef vector<pii> vii;
 
+map<int, vector<int>> roads;
+int n, m;
+bool visited[100000];
+void dfs(int k)
+{
+    if (visited[k])
+    {
+        return;
+    }
+    else
+    {
+        visited[k] = true;
+        for (int i : roads[k])
+        {
+            dfs(i);
+        }
+    }
+}
 void setIO(string s)
 {
     freopen((s + ".in").c_str(), "r", stdin);
@@ -45,41 +63,49 @@ void setIO(string s)
 }
 int main()
 {
-    // setIO("planting");
-    int n;
-    cin >> n;
-    map<int, vector<int>> network;
-    for (int i = 0; i < n - 1; i++)
+
+    int a, b;
+    cin >> n >> m;
+    for (int i = 0; i < m; i++)
     {
-        int a, b;
         cin >> a >> b;
-
         vector<int> va, vb;
-        va.push_back(a);
-        va.push_back(b);
-      
-
-        if (network.find(a) != network.end())
+        if (roads.find(a) != roads.end())
         {
-            network[a].push_back(b);
+            roads[a].push_back(b);
         }
         else
         {
-            network.insert({a, vb});
+            vb.push_back(b);
+            roads.insert({a, vb});
         }
-        if (network.find(b) != network.end())
+        if (roads.find(b) != roads.end())
         {
-            network[b].push_back(a);
+            roads[b].push_back(a);
         }
         else
         {
-            network.insert({b, va});
+            va.push_back(a);
+            roads.insert({b, va});
         }
     }
-    int colours = 0;
-    for (const auto& x : network)
+    map<int, int> newroads;
+    dfs(a);
+    for (int i = 1; i < n + 1; i++)
     {
-        colours = max(colours, (int)x.second.size());
+        if (visited[i] == false)
+        {
+            roads[a].push_back(i);
+            roads.insert({i, {a}});
+            newroads.insert({i, a});
+            dfs(i);
+        }
     }
-    cout << colours;
+    cout<<newroads.size()<<endl;
+    for (auto &m: newroads)
+    {
+        cout<<m.first<<" "<<m.second<<endl;
+   
+    }
+    
 }

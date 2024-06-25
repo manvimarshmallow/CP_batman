@@ -43,43 +43,41 @@ void setIO(string s)
     freopen((s + ".in").c_str(), "r", stdin);
     freopen((s + ".out").c_str(), "w", stdout);
 }
+vector<int> subset, s;
+int n,total;
+int m;
+void search(int k)
+{
+    if (k == n)
+    {
+        int sum = 0;
+        for (int i = 0; i < subset.size(); i++)
+        {
+            sum = sum + s[subset[i]];
+            // cout << subset[i] << " ";
+        }
+        m = min(m, abs(total - 2 * sum));
+        // cout << endl;
+    }
+    else
+    {
+        search(k + 1);
+        subset.push_back(k);
+        search(k + 1);
+        subset.pop_back();
+    }
+}
 int main()
 {
-    // setIO("planting");
-    int n;
     cin >> n;
-    map<int, vector<int>> network;
-    for (int i = 0; i < n - 1; i++)
+    vector<int> v(n);
+    for (int i = 0; i < n; i++)
     {
-        int a, b;
-        cin >> a >> b;
-
-        vector<int> va, vb;
-        va.push_back(a);
-        va.push_back(b);
-      
-
-        if (network.find(a) != network.end())
-        {
-            network[a].push_back(b);
-        }
-        else
-        {
-            network.insert({a, vb});
-        }
-        if (network.find(b) != network.end())
-        {
-            network[b].push_back(a);
-        }
-        else
-        {
-            network.insert({b, va});
-        }
+        cin >> v[i];
     }
-    int colours = 0;
-    for (const auto& x : network)
-    {
-        colours = max(colours, (int)x.second.size());
-    }
-    cout << colours;
+    s = v;
+    total = accumulate(all(s), 0);
+    m = total;
+    search(0);
+    cout << m;
 }

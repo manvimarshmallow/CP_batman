@@ -45,41 +45,5 @@ void setIO(string s)
 }
 int main()
 {
-    // setIO("planting");
-    int n;
-    cin >> n;
-    map<int, vector<int>> network;
-    for (int i = 0; i < n - 1; i++)
-    {
-        int a, b;
-        cin >> a >> b;
-
-        vector<int> va, vb;
-        va.push_back(a);
-        va.push_back(b);
-      
-
-        if (network.find(a) != network.end())
-        {
-            network[a].push_back(b);
-        }
-        else
-        {
-            network.insert({a, vb});
-        }
-        if (network.find(b) != network.end())
-        {
-            network[b].push_back(a);
-        }
-        else
-        {
-            network.insert({b, va});
-        }
-    }
-    int colours = 0;
-    for (const auto& x : network)
-    {
-        colours = max(colours, (int)x.second.size());
-    }
-    cout << colours;
+    
 }

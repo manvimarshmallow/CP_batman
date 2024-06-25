@@ -43,43 +43,30 @@ void setIO(string s)
     freopen((s + ".in").c_str(), "r", stdin);
     freopen((s + ".out").c_str(), "w", stdout);
 }
+int n;
+void dfs(int s, int e)
+{
+    count[s] = 1;
+    for (auto u : adj[s])
+    {
+        if (u == e)
+            continue;
+        dfs(u, s);
+        count[s] += count[u];
+    }
+}
+vector<int> adj[100000];
 int main()
 {
-    // setIO("planting");
-    int n;
     cin >> n;
-    map<int, vector<int>> network;
-    for (int i = 0; i < n - 1; i++)
+    int k;
+    for (int i = 1; i < n + 1; i++)
     {
-        int a, b;
-        cin >> a >> b;
-
-        vector<int> va, vb;
-        va.push_back(a);
-        va.push_back(b);
-      
-
-        if (network.find(a) != network.end())
-        {
-            network[a].push_back(b);
-        }
-        else
-        {
-            network.insert({a, vb});
-        }
-        if (network.find(b) != network.end())
-        {
-            network[b].push_back(a);
-        }
-        else
-        {
-            network.insert({b, va});
-        }
+        cin >> k;
+        adj[k].push_back(i);
     }
-    int colours = 0;
-    for (const auto& x : network)
+    for (int i = 1; i < n + 1; i++)
     {
-        colours = max(colours, (int)x.second.size());
+            
     }
-    cout << colours;
-}
+}  

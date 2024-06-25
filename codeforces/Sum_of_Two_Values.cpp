@@ -45,41 +45,40 @@ void setIO(string s)
 }
 int main()
 {
-    // setIO("planting");
-    int n;
-    cin >> n;
-    map<int, vector<int>> network;
-    for (int i = 0; i < n - 1; i++)
+    ll n, x;
+    cin >> n >> x;
+    ll a[n];
+    ll b[n];
+    for (ll i = 0; i < n; i++)
     {
-        int a, b;
-        cin >> a >> b;
-
-        vector<int> va, vb;
-        va.push_back(a);
-        va.push_back(b);
-      
-
-        if (network.find(a) != network.end())
+        cin >> a[i];
+        b[i] = a[i];
+    }
+    sort(a, a + n);
+    ll left = 0, right = n - 1;
+    while (left < right)
+    {
+        if (a[left] + a[right] == x)
         {
-            network[a].push_back(b);
+            break;
+        }
+        else if (a[left] + a[right] < x)
+        {
+            left++;
         }
         else
         {
-            network.insert({a, vb});
-        }
-        if (network.find(b) != network.end())
-        {
-            network[b].push_back(a);
-        }
-        else
-        {
-            network.insert({b, va});
+            right--;
         }
     }
-    int colours = 0;
-    for (const auto& x : network)
+    if (a[left] + a[right] == x && left != right)
     {
-        colours = max(colours, (int)x.second.size());
+        ll *targetl = find(&b[0], b + n, a[left]);
+        ll *targetr = find(&b[0], b + n, a[right]);
+        cout << (min(targetl - b, targetr - b) + 1) << " " << max(targetl - b, targetr - b) + 1;
     }
-    cout << colours;
+    else
+    {
+        cout << "IMPOSSIBLE";
+    }
 }

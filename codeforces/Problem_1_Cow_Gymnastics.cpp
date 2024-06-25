@@ -43,43 +43,46 @@ void setIO(string s)
     freopen((s + ".in").c_str(), "r", stdin);
     freopen((s + ".out").c_str(), "w", stdout);
 }
-int main()
-{
-    // setIO("planting");
-    int n;
-    cin >> n;
-    map<int, vector<int>> network;
-    for (int i = 0; i < n - 1; i++)
+int main(int k, vector<vector<int>>v)
+{   
+    map <int , vector<int>> m;
+    for(vector<int> x: v)
     {
-        int a, b;
-        cin >> a >> b;
-
-        vector<int> va, vb;
-        va.push_back(a);
-        va.push_back(b);
-      
-
-        if (network.find(a) != network.end())
+        if(m.find(x[0])!=m.end())
         {
-            network[a].push_back(b);
+            m[x[0]].push_back(x[1]);
         }
         else
         {
-            network.insert({a, vb});
-        }
-        if (network.find(b) != network.end())
-        {
-            network[b].push_back(a);
-        }
-        else
-        {
-            network.insert({b, va});
+            vector <int> temp;
+            temp.push_back(x[1]);
+            m.insert({x[0],temp});
         }
     }
-    int colours = 0;
-    for (const auto& x : network)
-    {
-        colours = max(colours, (int)x.second.size());
+    vector<int> ans;
+    for(auto x: m)
+    {   
+        vector<int> t= x.second;
+        sort(all(t));
+        int count=0;
+        int check=t[0];
+        for(int i=0;i<t.size();i++)
+        {
+            if(t[i]==check)
+            {
+                count++;
+            }
+            else
+            {
+                count=1;
+                check= t[i];
+            }
+            if(count>k)
+            {
+                ans.push_back(x.first);
+                break;
+            }
+        }
     }
-    cout << colours;
+    cout<<ans.size();
 }

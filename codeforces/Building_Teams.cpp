@@ -37,7 +37,32 @@ typedef vector<int> vi;
 typedef vector<long long> vll;
 typedef pair<int, int> pii;
 typedef vector<pii> vii;
-
+int n, m;
+vector<int> adj[1000];
+vector<int> colour(n);
+void dfs(int k)
+{
+    if(adj[k].size()==0)
+    {
+        return;
+    }
+    else
+    {
+        for(int i=1;i<n+1;i++)
+        {
+            if(colour[k]==1)
+            {
+                colour[adj[k][i]]=2;
+                dfs(i);
+            }
+            else
+            {
+                colour[i]=1;
+                dfs(i);
+            }
+        }
+    }
+}
 void setIO(string s)
 {
     freopen((s + ".in").c_str(), "r", stdin);
@@ -45,41 +70,24 @@ void setIO(string s)
 }
 int main()
 {
-    // setIO("planting");
-    int n;
-    cin >> n;
-    map<int, vector<int>> network;
-    for (int i = 0; i < n - 1; i++)
+    int a, b;
+    cin >> n >> m;
+    for (int i = 0; i < m; i++)
     {
-        int a, b;
         cin >> a >> b;
-
-        vector<int> va, vb;
-        va.push_back(a);
-        va.push_back(b);
-      
-
-        if (network.find(a) != network.end())
-        {
-            network[a].push_back(b);
-        }
-        else
-        {
-            network.insert({a, vb});
-        }
-        if (network.find(b) != network.end())
-        {
-            network[b].push_back(a);
-        }
-        else
-        {
-            network.insert({b, va});
-        }
+        adj[a].push_back(b);
+        adj[b].push_back(a);
     }
-    int colours = 0;
-    for (const auto& x : network)
+  
+    for(int i=1;i<n+1;i++)
     {
-        colours = max(colours, (int)x.second.size());
+        if(colour[i]==0)
+        {
+            colour[i]=1;
+            dfs(i);
+        }
     }
-    cout << colours;
+
+
+
 }
